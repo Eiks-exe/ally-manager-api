@@ -1,4 +1,5 @@
 <?php
+    header('Access-Control-Allow-Origin: *');
     include("db_connect.php");
     $request_method = $_SERVER["REQUEST_METHOD"];
 
@@ -12,7 +13,8 @@
         {
             $response[] = $row;
         }
-        //header('Content-Type: application/json');
+        header('Access-Control-Allow-Origin: *');
+        header('Content-Type: application/json');
         echo json_encode($response, JSON_PRETTY_PRINT);
     }
 
@@ -38,14 +40,13 @@
     function AddContact()
     {
         global $conn;
-
         $name = $_REQUEST["name"];
         $phone = $_REQUEST["phone"];
         $city = $_REQUEST["city"];
         $mail = $_REQUEST["mail"];
         $website = $_REQUEST["website"];
         $created = date('Y-m-d H:i:s');
-        echo $query = "INSERT INTO contacts(name, phone, city, mail, website, created) VALUES('" . $name . "', '" . $phone . "', '" . $city . "' , '" . $mail . "', '" . $website . "', '" . $created . "')";
+        echo $query = "INSERT INTO contacts(`name`, phone, city, mail, website, created) VALUES('" . $name . "', '" . $phone . "', '" . $city . "' , '" . $mail . "', '" . $website . "', '" . $created . "')";
         if (mysqli_query($conn, $query)) {
             $response = array(
                 'status' => 1,
@@ -57,6 +58,7 @@
                 'status_message' => 'ERREUR!.' . mysqli_error($conn)
             );
         }
+        header('Access-Control-Allow-Origin: *');
         header('Content-Type: application/json');
         echo json_encode($response);
     }
