@@ -15,6 +15,7 @@
         }
         header('Access-Control-Allow-Origin: *');
         header('Content-Type: application/json');
+        header('Referrer-Policy: no-referrer-when-downgrade');
         echo json_encode($response, JSON_PRETTY_PRINT);
     }
 
@@ -99,6 +100,8 @@
     function DeleteContact($id)
     {
         global $conn;
+        var_dump($_REQUEST);
+        die();
         $query = "DELETE FROM contacts WHERE id=".$id;
         if(mysqli_query($conn, $query))
         {
@@ -114,6 +117,7 @@
                 'status_message' =>'La suppression du produit a echoue. '. mysqli_error($conn)
             );
         }
+        header('Access-Control-Allow-Origin: *');
         header('Content-Type: application/json');
         echo json_encode($response);
     }
